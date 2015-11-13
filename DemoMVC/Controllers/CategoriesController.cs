@@ -6,7 +6,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DemoMVC.Models;
-using DemoMVC.App_Start;
+using DemoMVC.Classes;
 
 namespace TestMVC.Controllers
 {
@@ -20,7 +20,7 @@ namespace TestMVC.Controllers
         // GET: Categories
         public ActionResult Index()
         {
-            return View(objBLL.GetAllCategories());
+            return View(objBLL.Categories.All());
         }
 
         // GET: Categories/Details/5
@@ -30,7 +30,7 @@ namespace TestMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = objBLL.FindCategoryWithID(id.Value);
+            Category category = objBLL.Categories.Find(id.Value);
             if (category == null)
             {
                 return HttpNotFound();
@@ -53,69 +53,71 @@ namespace TestMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                 objBLL.AddCategory(category);
+                objBLL.Categories.Add(category);
                  return RedirectToAction("Index");
             }
 
             return View(category);
         }
 
-        //// GET: Categories/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Category category = db.Categories.Find(id);
-        //    if (category == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(category);
-        //}
+        // GET: Categories/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Category category = objBLL.Categories.Find(id.Value);
 
-        //// POST: Categories/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "CategoryID,CategoryName")] Category category)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(category).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(category);
-        //}
+            if (category == null)
+            {
+                return HttpNotFound();
+            }
+            return View(category);
+        }
 
-        //// GET: Categories/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Category category = db.Categories.Find(id);
-        //    if (category == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(category);
-        //}
+        // POST: Categories/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "CategoryID,CategoryName")] Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                objBLL.Categories.Edit(category);               
+                return RedirectToAction("Index");
+            }
+            return View(category);
+        }
 
-        //// POST: Categories/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Category category = db.Categories.Find(id);
-        //    db.Categories.Remove(category);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+        // GET: Categories/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Category category = objBLL.Categories.Find(id.Value);
+            if (category == null)
+            {
+                return HttpNotFound();
+            }
+            return View(category);
+        }
+
+        // POST: Categories/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Category category = objBLL.Categories.Find(id);
+            if (category != null)
+            {
+                objBLL.Categories.Delete(category);
+            }
+            return RedirectToAction("Index");
+        }
 
         protected override void Dispose(bool disposing)
         {

@@ -108,11 +108,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AllConstants.cs" />
-    <Compile Include="App_Start\AllDemoMVCBLL.cs" />
+    <Compile Include="Classes\AllConstants.cs" />
+    <Compile Include="Classes\AllDemoMVCBLL.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\DAL.cs" />
-    <Compile Include="App_Start\DemoMVCDB.cs" />
+    <Compile Include="Classes\Categories.cs" />
+    <Compile Include="Classes\DAL.cs" />
+    <Compile Include="Classes\DemoMVCDB.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
@@ -163,6 +164,8 @@
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Categories\Create.cshtml" />
     <Content Include="Views\Categories\Details.cshtml" />
+    <Content Include="Views\Categories\Edit.cshtml" />
+    <Content Include="Views\Categories\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
