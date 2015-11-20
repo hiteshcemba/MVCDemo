@@ -9,6 +9,7 @@ using DemoMVC.Classes;
 namespace DemoMVC.Controllers
 {
     public class AccountController : Controller
+
     {
         
          AllDemoMVCBLL objBLL = new AllDemoMVCBLL(AllConstants.CONNECTIONSTRING);
