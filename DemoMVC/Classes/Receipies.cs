@@ -1,27 +1,28 @@
-﻿using System;
+﻿using DemoMVC.Models;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
-using DemoMVC.Models;
-using System.Data;
 
 namespace DemoMVC.Classes
 {
-    public class Categories
+    public class Receipies
     {
-         public string ConnectionString { get; set; }
-         public Categories()
+
+          public string ConnectionString { get; set; }
+          public Receipies()
         {
             ConnectionString = AllConstants.CONNECTIONSTRING;
         }
 
-         public List<Category> All()
+          public List<Receipy> All()
          {
              try
              {
-                 List<Category> objresult = new List<Category>();
+                 List<Receipy> objresult = new List<Receipy>();
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "SELECT * FROM CATEGORY";
+                 string sqlstring = "SELECT * FROM vwReceipy";
                  DataSet DS = DB.GetDataSet(sqlstring, "TABLE1");
                  if (DS != null)
                  {
@@ -29,10 +30,8 @@ namespace DemoMVC.Classes
                      {
                          foreach (DataRow DR in DS.Tables[0].Rows)
                          {
-                             Category objCAT = new Category();
-                             objCAT.CategoryID = int.Parse(DR["CATEGORYID"].ToString());
-                             objCAT.CategoryName = DR["CATEGORYNAME"].ToString();
-                             objresult.Add(objCAT);
+                             Receipy obj = GetObjectFromDR(DR); 
+                             objresult.Add(obj);
                          }
                      }
                  }
@@ -43,13 +42,13 @@ namespace DemoMVC.Classes
                  throw ex;
              }
          }
-         public bool Add(Category objCat)
+          public bool Add(Receipy obj)
          {
              try
              {
 
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "INSERT INTO CATEGORY(CATEGORYNAME) VALUES ('" + objCat.CategoryName + "')";
+                 string sqlstring = "INSERT INTO RECEIPY(RECEIPYNAME,INGREDIENTS,MAKING,TIME,SUBCATEGORYID,IMAGE,DATEINSERT) VALUES (" + obj.ReceipyName.ToString() + ",'" + obj.Ingredients + "','" + obj.Making + "'," + obj.Time + "," + obj.SubCategoryID.ToString() + ",'" + DateTime.Today.ToString("dd-Mon-yyyy") + "')";
                  int ROWCOUNT = DB.ExecuteCommandNoQuery(sqlstring);
                  if (ROWCOUNT > 0)
                      return true;
@@ -61,14 +60,14 @@ namespace DemoMVC.Classes
                  throw ex;
              }
          }
-         public Category Find(int id)
+          public Receipy Find(int id)
          {
              try
              {
-                 Category objResult = null;
+                 Receipy objResult = null;
 
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "SELECT * FROM CATEGORY WHERE CATEGORYID = " + id.ToString();
+                 string sqlstring = "SELECT * FROM vwReceipy WHERE RECEIPYID = " + id.ToString();
                  DataSet DS = DB.GetDataSet(sqlstring, "TABLE1");
                  if (DS != null)
                  {
@@ -77,9 +76,8 @@ namespace DemoMVC.Classes
                          if (DS.Tables[0].Rows.Count > 0)
                          {
                              DataRow DR = DS.Tables[0].Rows[0];
-                             objResult = new Category();
-                             objResult.CategoryID = int.Parse(DR["CATEGORYID"].ToString());
-                             objResult.CategoryName = DR["CATEGORYNAME"].ToString();
+                             objResult = GetObjectFromDR(DR); 
+                             
                          }
                      }
                  }
@@ -90,12 +88,12 @@ namespace DemoMVC.Classes
                  throw ex;
              }
          }
-         public bool Edit(Category objCat)
+          public bool Edit(Receipy obj)
          {
              try
              {
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "UPDATE CATEGORY SET CATEGORYNAME = '" + objCat.CategoryName + "' WHERE CATEGORYID = " + objCat.CategoryID.ToString();
+                 string sqlstring = ""; //"UPDATE SUBCATEGORY SET SUBCATEGORYNAME = '" + obj.SubCategoryName + "',CATEGORYID = " + obj.CategoryID.ToString() + " WHERE SUBCATEGORYID = " + obj.SubCategoryID.ToString();
                  int ROWCOUNT = DB.ExecuteCommandNoQuery(sqlstring);
                  if (ROWCOUNT > 0)
                      return true;
@@ -108,12 +106,12 @@ namespace DemoMVC.Classes
              }
 
          }
-         public bool Delete(Category objCat)
+          public bool Delete(Receipy obj)
          {
              try
              {
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "DELETE FROM CATEGORY WHERE CATEGORYID = " + objCat.CategoryID.ToString();
+                 string sqlstring = "DELETE FROM RECEIPY WHERE RECEIPYID = " + obj.ReceipyID.ToString();
                  int ROWCOUNT = DB.ExecuteCommandNoQuery(sqlstring);
                  if (ROWCOUNT > 0)
                      return true;
@@ -126,8 +124,29 @@ namespace DemoMVC.Classes
              }
          }
 
+          public Receipy GetObjectFromDR(DataRow DR)
+          {
+              try
+              {
+                  AllDemoMVCBLL objBLL=new AllDemoMVCBLL();
+                  Receipy obj = new Receipy();
+                  obj.ReceipyID = int.Parse(DR["ReceipyID"].ToString());
+                  obj.ReceipyName = DR["ReceipyName"].ToString();
+                  obj.Ingredients = DR["Ingredients"].ToString();
+                  obj.Time = int.Parse(DR["Time"].ToString());
+                  if (DR["DateInsert"] != DBNull.Value)
+                      obj.DateInsert = Convert.ToDateTime(DR["DateInsert"]);
+                  if (DR["DateUpdate"] != DBNull.Value)
+                      obj.DateUpdate = Convert.ToDateTime(DR["DateUpdate"]);
+                  obj.SubCategory = objBLL.SubCategories.GetObjectFromDR(DR);
+                  return obj;
+              }
+            catch(Exception ex)
+              {
+                  throw ex;
+              }
 
-
+          }
 
     }
 }

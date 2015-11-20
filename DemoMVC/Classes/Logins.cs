@@ -10,9 +10,9 @@ namespace DemoMVC.Classes
     public class Logins
     {
          public string ConnectionString { get; set; }
-         public Logins(string strconnectionstring)
+         public Logins()
         {
-            ConnectionString = strconnectionstring;
+            ConnectionString = AllConstants.CONNECTIONSTRING;
         }
 
         public Login Find(Login login)

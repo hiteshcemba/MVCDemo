@@ -1749,8 +1749,8 @@ fieldset[disabled] .form-control {
 }
 
 textarea.form-control {
-  height: auto;
-}
+  height: 200px;
+ }
 
 .form-group {
   margin-bottom: 15px;

@@ -11,7 +11,7 @@ namespace DemoMVC.Controllers
     public class AccountController : Controller
     {
         
-         AllDemoMVCBLL objBLL = new AllDemoMVCBLL(AllConstants.CONNECTIONSTRING);
+         AllDemoMVCBLL objBLL = new AllDemoMVCBLL();
 
 
         [AllowAnonymous]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -8,114 +9,112 @@ using System.Web.Mvc;
 using DemoMVC.Models;
 using DemoMVC.Classes;
 
-namespace TestMVC.Controllers
+namespace DemoMVC.Controllers
 {
-    public class CategoriesController : Controller
+    public class SubCategoriesController : Controller
     {
 
-
         AllDemoMVCBLL objBLL = new AllDemoMVCBLL();
-
-
-        // GET: Categories
+        // GET: SubCategories
         public ActionResult Index()
         {
-            return View(objBLL.Categories.All());
+            var subCategories = objBLL.SubCategories.All();
+            return View(subCategories.ToList());
         }
 
-        // GET: Categories/Details/5
+        // GET: SubCategories/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = objBLL.Categories.Find(id.Value);
-            if (category == null)
+            SubCategory subCategory = objBLL.SubCategories.Find(id.Value);
+            if (subCategory == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(subCategory);
         }
 
-        // GET: Categories/Create
+        // GET: SubCategories/Create
         public ActionResult Create()
         {
+            ViewBag.CategoryID = new SelectList(objBLL.Categories.All(), "CategoryID", "CategoryName");
             return View();
         }
 
-        // POST: Categories/Create
+        // POST: SubCategories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CategoryID,CategoryName")] Category category)
+        public ActionResult Create([Bind(Include = "SubCategoryID,SubCategoryName,CategoryID")] SubCategory subCategory)
         {
             if (ModelState.IsValid)
             {
-                objBLL.Categories.Add(category);
-                 return RedirectToAction("Index");
+                objBLL.SubCategories.Add(subCategory);
+                return RedirectToAction("Index");
             }
 
-            return View(category);
+            ViewBag.CategoryID = new SelectList(objBLL.Categories.All(), "CategoryID", "CategoryName", subCategory.CategoryID);
+            return View(subCategory);
         }
 
-        // GET: Categories/Edit/5
+        // GET: SubCategories/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = objBLL.Categories.Find(id.Value);
-
-            if (category == null)
+            SubCategory subCategory = objBLL.SubCategories.Find(id.Value);
+            if (subCategory == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            ViewBag.CategoryID = new SelectList( objBLL.Categories.All(), "CategoryID", "CategoryName", subCategory.CategoryID);
+            return View(subCategory);
         }
 
-        // POST: Categories/Edit/5
+        // POST: SubCategories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CategoryID,CategoryName")] Category category)
+        public ActionResult Edit([Bind(Include = "SubCategoryID,SubCategoryName,CategoryID")] SubCategory subCategory)
         {
             if (ModelState.IsValid)
             {
-                objBLL.Categories.Edit(category);               
+                objBLL.SubCategories.Edit(subCategory);
                 return RedirectToAction("Index");
             }
-            return View(category);
+            ViewBag.CategoryID = new SelectList(objBLL.Categories.All(), "CategoryID", "CategoryName", subCategory.CategoryID);
+            return View(subCategory);
         }
 
-        // GET: Categories/Delete/5
+        // GET: SubCategories/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = objBLL.Categories.Find(id.Value);
-            if (category == null)
+            SubCategory subCategory = objBLL.SubCategories.Find(id.Value);
+            if (subCategory == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(subCategory);
         }
 
-        // POST: Categories/Delete/5
+        // POST: SubCategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Category category = objBLL.Categories.Find(id);
-            if (category != null)
-            {
-                objBLL.Categories.Delete(category);
-            }
+            SubCategory subCategory = objBLL.SubCategories.Find(id);
+            objBLL.SubCategories.Delete(subCategory);
             return RedirectToAction("Index");
         }
 
@@ -123,7 +122,7 @@ namespace TestMVC.Controllers
         {
             if (disposing)
             {
-                objBLL.Dispose();
+               // db.Dispose();
             }
             base.Dispose(disposing);
         }

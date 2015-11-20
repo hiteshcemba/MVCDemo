@@ -71,7 +71,7 @@ namespace DemoMVC
         public int ExecuteCommandNoQuery(string strSQL, OleDbParameter[] _params, string ErrNumParamName, string ErrMessgParamName)
         {
             int NumRows = -1;
-            int ErrNum = 0;
+          //  int ErrNum = 0;
             string ErrMsg="";
             using (OleDbConnection connection = new OleDbConnection(ConnectionString))
             {

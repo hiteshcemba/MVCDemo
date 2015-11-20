@@ -7,21 +7,21 @@ using System.Data;
 
 namespace DemoMVC.Classes
 {
-    public class Categories
+    public class SubCategories
     {
-         public string ConnectionString { get; set; }
-         public Categories()
+          public string ConnectionString { get; set; }
+          public SubCategories()
         {
             ConnectionString = AllConstants.CONNECTIONSTRING;
         }
 
-         public List<Category> All()
+          public List<SubCategory> All()
          {
              try
              {
-                 List<Category> objresult = new List<Category>();
+                 List<SubCategory> objresult = new List<SubCategory>();
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "SELECT * FROM CATEGORY";
+                 string sqlstring = "SELECT * FROM vwSubCategory";
                  DataSet DS = DB.GetDataSet(sqlstring, "TABLE1");
                  if (DS != null)
                  {
@@ -29,10 +29,8 @@ namespace DemoMVC.Classes
                      {
                          foreach (DataRow DR in DS.Tables[0].Rows)
                          {
-                             Category objCAT = new Category();
-                             objCAT.CategoryID = int.Parse(DR["CATEGORYID"].ToString());
-                             objCAT.CategoryName = DR["CATEGORYNAME"].ToString();
-                             objresult.Add(objCAT);
+                             SubCategory obj = GetObjectFromDR(DR); 
+                             objresult.Add(obj);
                          }
                      }
                  }
@@ -43,13 +41,13 @@ namespace DemoMVC.Classes
                  throw ex;
              }
          }
-         public bool Add(Category objCat)
+          public bool Add(SubCategory objCat)
          {
              try
              {
 
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "INSERT INTO CATEGORY(CATEGORYNAME) VALUES ('" + objCat.CategoryName + "')";
+                 string sqlstring = "INSERT INTO SUBCATEGORY(CATEGORYID,SUBCATEGORYNAME) VALUES (" + objCat.CategoryID.ToString() + ",'" + objCat.SubCategoryName + "')";
                  int ROWCOUNT = DB.ExecuteCommandNoQuery(sqlstring);
                  if (ROWCOUNT > 0)
                      return true;
@@ -61,14 +59,14 @@ namespace DemoMVC.Classes
                  throw ex;
              }
          }
-         public Category Find(int id)
+          public SubCategory Find(int id)
          {
              try
              {
-                 Category objResult = null;
+                 SubCategory objResult = null;
 
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "SELECT * FROM CATEGORY WHERE CATEGORYID = " + id.ToString();
+                 string sqlstring = "SELECT * FROM vwSubCategory WHERE SUBCATEGORYID = " + id.ToString();
                  DataSet DS = DB.GetDataSet(sqlstring, "TABLE1");
                  if (DS != null)
                  {
@@ -77,9 +75,8 @@ namespace DemoMVC.Classes
                          if (DS.Tables[0].Rows.Count > 0)
                          {
                              DataRow DR = DS.Tables[0].Rows[0];
-                             objResult = new Category();
-                             objResult.CategoryID = int.Parse(DR["CATEGORYID"].ToString());
-                             objResult.CategoryName = DR["CATEGORYNAME"].ToString();
+                             objResult = GetObjectFromDR(DR); 
+                             
                          }
                      }
                  }
@@ -90,12 +87,12 @@ namespace DemoMVC.Classes
                  throw ex;
              }
          }
-         public bool Edit(Category objCat)
+          public bool Edit(SubCategory obj)
          {
              try
              {
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "UPDATE CATEGORY SET CATEGORYNAME = '" + objCat.CategoryName + "' WHERE CATEGORYID = " + objCat.CategoryID.ToString();
+                 string sqlstring = "UPDATE SUBCATEGORY SET SUBCATEGORYNAME = '" + obj.SubCategoryName + "',CATEGORYID = " + obj.CategoryID.ToString() + " WHERE SUBCATEGORYID = " + obj.SubCategoryID.ToString();
                  int ROWCOUNT = DB.ExecuteCommandNoQuery(sqlstring);
                  if (ROWCOUNT > 0)
                      return true;
@@ -108,12 +105,12 @@ namespace DemoMVC.Classes
              }
 
          }
-         public bool Delete(Category objCat)
+          public bool Delete(SubCategory obj)
          {
              try
              {
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "DELETE FROM CATEGORY WHERE CATEGORYID = " + objCat.CategoryID.ToString();
+                 string sqlstring = "DELETE FROM SUBCATEGORY WHERE SUBCATEGORYID = " + obj.SubCategoryID.ToString();
                  int ROWCOUNT = DB.ExecuteCommandNoQuery(sqlstring);
                  if (ROWCOUNT > 0)
                      return true;
@@ -126,7 +123,24 @@ namespace DemoMVC.Classes
              }
          }
 
+        public SubCategory GetObjectFromDR(DataRow DR)
+          {
+              try
+              {
+                  SubCategory obj = new SubCategory();
+                  obj.SubCategoryID = int.Parse(DR["SUBCATEGORYID"].ToString());
+                  obj.SubCategoryName = DR["SUBCATEGORYNAME"].ToString();
+                  obj.CategoryID = int.Parse(DR["CATEGORYID"].ToString());
+                  obj.Category.CategoryID = obj.CategoryID;
+                  obj.Category.CategoryName = DR["CATEGORYNAME"].ToString();
+                  return obj;
+              }
+            catch(Exception ex)
+              {
+                  throw ex;
+              }
 
+          }
 
 
     }

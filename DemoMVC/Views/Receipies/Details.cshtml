@@ -1,0 +1,66 @@
+﻿@model DemoMVC.Models.Receipy
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Receipy</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SubCategory.SubCategoryName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubCategory.SubCategoryName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceipyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceipyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ingredients)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ingredients)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Making)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Making)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Time)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Image)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ReceipyID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -39,9 +39,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -117,14 +126,20 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Classes\Logins.cs" />
+    <Compile Include="Classes\Receipies.cs" />
+    <Compile Include="Classes\SubCategories.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ReceipiesController.cs" />
+    <Compile Include="Controllers\SubCategoriesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\Receipy.cs" />
+    <Compile Include="Models\SubCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -171,8 +186,20 @@
     <Content Include="Views\Categories\Delete.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Home.cshtml" />
+    <Content Include="Views\SubCategories\Create.cshtml" />
+    <Content Include="Views\SubCategories\Delete.cshtml" />
+    <Content Include="Views\SubCategories\Details.cshtml" />
+    <Content Include="Views\SubCategories\Edit.cshtml" />
+    <Content Include="Views\SubCategories\Index.cshtml" />
+    <Content Include="Views\Receipies\Create.cshtml" />
+    <Content Include="Views\Receipies\Delete.cshtml" />
+    <Content Include="Views\Receipies\Details.cshtml" />
+    <Content Include="Views\Receipies\Edit.cshtml" />
+    <Content Include="Views\Receipies\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\Images\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
