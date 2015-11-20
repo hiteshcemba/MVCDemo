@@ -9,9 +9,9 @@ namespace DemoMVC.Classes
     {
         public AllDemoMVCBLL(string strconnectionstring)
         {
-            Categories = new Categories(strconnectionstring);
-            Logins = new Logins(strconnectionstring);
-            SubCategories = new SubCategories(strconnectionstring);
+            Categories = new Categories();
+            Logins = new Logins();
+            SubCategories = new SubCategories();
         }
         public void Dispose()
         {

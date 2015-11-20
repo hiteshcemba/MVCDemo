@@ -1,27 +1,28 @@
-﻿using System;
+﻿using DemoMVC.Models;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
-using DemoMVC.Models;
-using System.Data;
 
 namespace DemoMVC.Classes
 {
-    public class SubCategories
+    public class Receipies
     {
+
           public string ConnectionString { get; set; }
-          public SubCategories()
+          public Receipies()
         {
             ConnectionString = AllConstants.CONNECTIONSTRING;
         }
 
-          public List<SubCategory> All()
+          public List<Receipy> All()
          {
              try
              {
-                 List<SubCategory> objresult = new List<SubCategory>();
+                 List<Receipy> objresult = new List<Receipy>();
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "SELECT * FROM vwSubCategory";
+                 string sqlstring = "SELECT * FROM vwReceipy";
                  DataSet DS = DB.GetDataSet(sqlstring, "TABLE1");
                  if (DS != null)
                  {
@@ -29,7 +30,7 @@ namespace DemoMVC.Classes
                      {
                          foreach (DataRow DR in DS.Tables[0].Rows)
                          {
-                             SubCategory obj = GetObjectFromDR(DR); 
+                             Receipy obj = GetObjectFromDR(DR); 
                              objresult.Add(obj);
                          }
                      }
@@ -41,13 +42,13 @@ namespace DemoMVC.Classes
                  throw ex;
              }
          }
-          public bool Add(SubCategory objCat)
+          public bool Add(Receipy obj)
          {
              try
              {
 
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "INSERT INTO SUBCATEGORY(CATEGORYID,SUBCATEGORYNAME) VALUES (" + objCat.CategoryID.ToString() + ",'" + objCat.SubCategoryName + "')";
+                 string sqlstring = "INSERT INTO RECEIPY(RECEIPYNAME,INGREDIENTS,MAKING,TIME,SUBCATEGORYID,IMAGE,DATEINSERT) VALUES (" + obj.ReceipyName.ToString() + ",'" + obj.Ingredients + "','" + obj.Making + "'," + obj.Time + "," + obj.SubCategoryID.ToString() + ",'" + DateTime.Today.ToString("dd-Mon-yyyy") + "')";
                  int ROWCOUNT = DB.ExecuteCommandNoQuery(sqlstring);
                  if (ROWCOUNT > 0)
                      return true;
@@ -59,14 +60,14 @@ namespace DemoMVC.Classes
                  throw ex;
              }
          }
-          public SubCategory Find(int id)
+          public Receipy Find(int id)
          {
              try
              {
-                 SubCategory objResult = null;
+                 Receipy objResult = null;
 
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "SELECT * FROM vwSubCategory WHERE SUBCATEGORYID = " + id.ToString();
+                 string sqlstring = "SELECT * FROM vwReceipy WHERE RECEIPYID = " + id.ToString();
                  DataSet DS = DB.GetDataSet(sqlstring, "TABLE1");
                  if (DS != null)
                  {
@@ -87,12 +88,12 @@ namespace DemoMVC.Classes
                  throw ex;
              }
          }
-          public bool Edit(SubCategory obj)
+          public bool Edit(Receipy obj)
          {
              try
              {
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "UPDATE SUBCATEGORY SET SUBCATEGORYNAME = '" + obj.SubCategoryName + "',CATEGORYID = " + obj.CategoryID.ToString() + " WHERE SUBCATEGORYID = " + obj.SubCategoryID.ToString();
+                 string sqlstring = ""; //"UPDATE SUBCATEGORY SET SUBCATEGORYNAME = '" + obj.SubCategoryName + "',CATEGORYID = " + obj.CategoryID.ToString() + " WHERE SUBCATEGORYID = " + obj.SubCategoryID.ToString();
                  int ROWCOUNT = DB.ExecuteCommandNoQuery(sqlstring);
                  if (ROWCOUNT > 0)
                      return true;
@@ -105,12 +106,12 @@ namespace DemoMVC.Classes
              }
 
          }
-          public bool Delete(SubCategory obj)
+          public bool Delete(Receipy obj)
          {
              try
              {
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "DELETE FROM SUBCATEGORY WHERE SUBCATEGORYID = " + obj.SubCategoryID.ToString();
+                 string sqlstring = "DELETE FROM RECEIPY WHERE RECEIPYID = " + obj.ReceipyID.ToString();
                  int ROWCOUNT = DB.ExecuteCommandNoQuery(sqlstring);
                  if (ROWCOUNT > 0)
                      return true;
@@ -123,16 +124,21 @@ namespace DemoMVC.Classes
              }
          }
 
-        public SubCategory GetObjectFromDR(DataRow DR)
+          public Receipy GetObjectFromDR(DataRow DR)
           {
               try
               {
-                  SubCategory obj = new SubCategory();
-                  obj.SubCategoryID = int.Parse(DR["SUBCATEGORYID"].ToString());
-                  obj.SubCategoryName = DR["SUBCATEGORYNAME"].ToString();
-                  obj.CategoryID = int.Parse(DR["CATEGORYID"].ToString());
-                  obj.Category.CategoryID = obj.CategoryID;
-                  obj.Category.CategoryName = DR["CATEGORYNAME"].ToString();
+                  AllDemoMVCBLL objBLL=new AllDemoMVCBLL();
+                  Receipy obj = new Receipy();
+                  obj.ReceipyID = int.Parse(DR["ReceipyID"].ToString());
+                  obj.ReceipyName = DR["ReceipyName"].ToString();
+                  obj.Ingredients = DR["Ingredients"].ToString();
+                  obj.Time = int.Parse(DR["Time"].ToString());
+                  if (DR["DateInsert"] != DBNull.Value)
+                      obj.DateInsert = Convert.ToDateTime(DR["DateInsert"]);
+                  if (DR["DateUpdate"] != DBNull.Value)
+                      obj.DateUpdate = Convert.ToDateTime(DR["DateUpdate"]);
+                  obj.SubCategory = objBLL.SubCategories.GetObjectFromDR(DR);
                   return obj;
               }
             catch(Exception ex)
@@ -141,7 +147,6 @@ namespace DemoMVC.Classes
               }
 
           }
-
 
     }
 }

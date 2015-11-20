@@ -14,7 +14,7 @@ namespace TestMVC.Controllers
     {
 
 
-        AllDemoMVCBLL objBLL = new AllDemoMVCBLL(AllConstants.CONNECTIONSTRING);
+        AllDemoMVCBLL objBLL = new AllDemoMVCBLL();
 
 
         // GET: Categories

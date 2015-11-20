@@ -11,6 +11,7 @@ namespace DemoMVC.Models
         public int CategoryID { get; set; }
         [Required]
         [Display(Name = "Category")]
+        [StringLength(50)]
         public string CategoryName { get; set; }
     }
 }

@@ -10,9 +10,9 @@ namespace DemoMVC.Classes
     public class Categories
     {
          public string ConnectionString { get; set; }
-         public Categories(string strconnectionstring)
+         public Categories()
         {
-            ConnectionString = strconnectionstring;
+            ConnectionString = AllConstants.CONNECTIONSTRING;
         }
 
          public List<Category> All()
