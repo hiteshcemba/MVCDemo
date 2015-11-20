@@ -15,7 +15,8 @@ namespace DemoMVC.Classes
         //public List<Category> GetAllCategories()
         //{
         //    return DB.GetAllCategories(); 
-        //}
+
+
         //public bool AddCategory(Category objCat)
         //{
         //    return DB.AddCategory(objCat); 
