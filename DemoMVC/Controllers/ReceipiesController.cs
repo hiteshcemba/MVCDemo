@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using DemoMVC.Models;
 using DemoMVC.Classes;
+using System.IO;
 
 namespace DemoMVC.Controllers
 {
@@ -50,7 +51,7 @@ namespace DemoMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ReceipyID,ReceipyName,Ingredients,Making,Time,Image,SubCategoryID")] Receipy receipy, HttpPostedFileBase upload)
+        public ActionResult Create([Bind(Include = "ReceipyID,ReceipyName,Ingredients,Making,TimeToMake,Image,SubCategoryID")] Receipy receipy, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
@@ -58,8 +59,8 @@ namespace DemoMVC.Controllers
                 {                 
                         try
                         {
-                      
-                            string fileName = Guid.NewGuid().ToString();
+
+                            string fileName = Guid.NewGuid().ToString() +  Path.GetExtension(upload.FileName);
                             string serverPath = Server.MapPath("~");
                             string imagesPath = serverPath + "Content\\Images\\";
                             upload.SaveAs(imagesPath + fileName);
@@ -102,7 +103,7 @@ namespace DemoMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ReceipyID,ReceipyName,Ingredients,Making,Time,Image,SubCategoryID")] Receipy receipy)
+        public ActionResult Edit([Bind(Include = "ReceipyID,ReceipyName,Ingredients,Making,TimeToMake,Image,SubCategoryID")] Receipy receipy)
         {
             if (ModelState.IsValid)
             {

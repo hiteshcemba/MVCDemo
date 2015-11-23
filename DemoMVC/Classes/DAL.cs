@@ -16,6 +16,7 @@ namespace DemoMVC
         public string Server { get; set; }
         public string Password { get; set; }
 
+
         public  DAL(string _tmpconnectionstring)
         {
             ConnectionString = _tmpconnectionstring;

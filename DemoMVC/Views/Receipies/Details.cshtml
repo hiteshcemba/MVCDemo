@@ -11,19 +11,24 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+           
+        </dt>
+        <dd>
+            @Html.DisplayNameFor(model => model.ReceipyID)   @Html.DisplayFor(model => model.ReceipyID)  @Html.DisplayFor(model => model.ReceipyName)
+        </dd>
+       <dt>
+           <img src="@Url.Content(Model.ImageURL)" width="200" height="100">
+        </dt>
+
+        <dd>
+           
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.SubCategory.SubCategoryName)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.SubCategory.SubCategoryName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ReceipyName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ReceipyName)
         </dd>
 
         <dt>
@@ -43,11 +48,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Time)
+            @Html.DisplayNameFor(model => model.TimeToMake)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Time)
+            @Html.DisplayFor(model => model.TimeToMake)
         </dd>
 
         <dt>

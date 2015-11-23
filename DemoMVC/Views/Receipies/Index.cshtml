@@ -22,13 +22,7 @@
             @Html.DisplayNameFor(model => model.SubCategory.SubCategoryName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ingredients)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Making)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Time)
+            @Html.DisplayNameFor(model => model.TimeToMake)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Image)
@@ -36,10 +30,7 @@
         <th>
             @Html.DisplayNameFor(model => model.DateInsert)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateUpdate)
-        </th>
-       
+           
         <th></th>
     </tr>
 
@@ -56,23 +47,21 @@
             @Html.DisplayFor(modelItem => item.SubCategory.SubCategoryName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Ingredients)
+            @Html.DisplayFor(modelItem => item.TimeToMake)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Making)
+             
+            <a href='@Url.Action("Details", "Receipies",new { id=item.ReceipyID })'>
+                <img src="@Url.Content(item.ImageURL)" width="100" height="100">
+            </a>
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Time)
+            @{
+    string strShortDate = item.DateInsert.ToShortDateString();
+            }
+            @Html.DisplayFor(modelItem => strShortDate)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Image)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateInsert)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateUpdate)
-        </td>
+   
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ReceipyID }) |
             @Html.ActionLink("Details", "Details", new { id=item.ReceipyID }) |

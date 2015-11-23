@@ -48,7 +48,7 @@ namespace DemoMVC.Classes
              {
 
                  DAL DB = new DAL(ConnectionString);
-                 string sqlstring = "INSERT INTO RECEIPY(RECEIPYNAME,INGREDIENTS,MAKING,TIME,SUBCATEGORYID,IMAGE,DATEINSERT) VALUES (" + obj.ReceipyName.ToString() + ",'" + obj.Ingredients + "','" + obj.Making + "'," + obj.Time + "," + obj.SubCategoryID.ToString() + ",'" + DateTime.Today.ToString("dd-Mon-yyyy") + "')";
+                 string sqlstring = "INSERT INTO RECEIPY(RECEIPYNAME,INGREDIENTS,MAKING,TimeToMake,SUBCATEGORYID,[IMAGE],DATEINSERT) VALUES ('" + obj.ReceipyName.ToString() + "','" + obj.Ingredients + "','" + obj.Making + "'," + obj.TimeToMake .ToString() + "," + obj.SubCategoryID.ToString() + ",'" + obj.Image.ToString() + "','" + DateTime.Today.ToString("dd-MMM-yyyy") + "')";
                  int ROWCOUNT = DB.ExecuteCommandNoQuery(sqlstring);
                  if (ROWCOUNT > 0)
                      return true;
@@ -133,11 +133,14 @@ namespace DemoMVC.Classes
                   obj.ReceipyID = int.Parse(DR["ReceipyID"].ToString());
                   obj.ReceipyName = DR["ReceipyName"].ToString();
                   obj.Ingredients = DR["Ingredients"].ToString();
-                  obj.Time = int.Parse(DR["Time"].ToString());
+                  obj.Making = DR["Making"].ToString();
+                  obj.Image = DR["Image"].ToString();
                   if (DR["DateInsert"] != DBNull.Value)
                       obj.DateInsert = Convert.ToDateTime(DR["DateInsert"]);
                   if (DR["DateUpdate"] != DBNull.Value)
                       obj.DateUpdate = Convert.ToDateTime(DR["DateUpdate"]);
+                  if (DR["TimeToMake"] != DBNull.Value)
+                      obj.TimeToMake = int.Parse(DR["TimeToMake"].ToString());
                   obj.SubCategory = objBLL.SubCategories.GetObjectFromDR(DR);
                   return obj;
               }
