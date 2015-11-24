@@ -18,6 +18,7 @@ namespace DemoMVC.Models
         [StringLength(10)]
         [Display(Name = "Password")]
         public string Password { get; set; }
+        
 
      
     }
