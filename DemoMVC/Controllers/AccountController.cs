@@ -33,7 +33,7 @@ namespace DemoMVC.Controllers
                 {
                     if (login.UserId == tmplogin.UserId && login.Password == tmplogin.Password)
                     {
-                        ViewBag.Login = tmplogin;
+                        Session["login"] = tmplogin; 
                         return View("Home");
 
                     }
@@ -54,7 +54,7 @@ namespace DemoMVC.Controllers
       
        public ActionResult Home()
        {
-           if (ViewBag.Login == null)
+           if (Session["login"] == null)
            {
                return View("Login"); 
            }
